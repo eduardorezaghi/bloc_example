@@ -1,3 +1,4 @@
+import 'package:bloc_example/bloc/counter_bloc.dart';
 import 'package:bloc_example/cubit/counter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,7 @@ class DecrementCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Share the CounterCubit instance from the parent widget.
-    final cubit = BlocProvider.of<CounterCubit>(context);
+    final bloc = BlocProvider.of<CounterBloc>(context);
 
     return Scaffold(
       body: Center(
@@ -23,7 +24,7 @@ class DecrementCounter extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             // Use BlocBuilder to rebuild only the Text widget.
-            BlocBuilder(
+            BlocBuilder<CounterBloc, int>(
               builder: (context, state) => Column(
                 children: [
                   Text(
@@ -37,11 +38,10 @@ class DecrementCounter extends StatelessWidget {
                   ),
                 ],
               ),
-              bloc: cubit,
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () => cubit.decrement(),
+              onPressed: () => bloc.add(Decrement()),
               child: const Text('Decrement'),
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:bloc_example/bloc/counter_bloc.dart';
 import 'package:bloc_example/cubit/counter_cubit.dart';
 import 'package:bloc_example/decrement_counter.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<CounterCubit>(context);
+    final bloc = BlocProvider.of<CounterBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,12 +33,11 @@ class MyHomePage extends StatelessWidget {
             ),
             // Change only the Text, by using BlocBuilder.
             // This means that, if the state changes, only the Text widget will be rebuilt.
-            BlocBuilder(
+            BlocBuilder<CounterBloc, int>(
               builder: (context, state) => Text(
                 '$state',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
-              bloc: cubit,
             ),
           ],
         ),
@@ -46,12 +46,12 @@ class MyHomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            onPressed: () => cubit.increment(),
+            onPressed: () => bloc.add(Increment()),
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
           FloatingActionButton(
-            onPressed: () => cubit.decrement(),
+            onPressed: () => bloc.add(Decrement()),
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),
           ),

@@ -1,3 +1,4 @@
+import 'package:bloc_example/bloc/counter_bloc.dart';
 import 'package:bloc_example/cubit/counter_cubit.dart';
 import 'package:bloc_example/home_page.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Wrap the main widget with the BlocProvider,
-    // so that the CounterCubit instance can be shared with the child widgets.
-    return BlocProvider(
-      create: (context) => CounterCubit(),
+    // Provide the CounterBloc and CounterCubit instances to the entire app.
+    // Uses a list of MultiBlocProvider to provide multiple Blocs and Cubits.
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => CounterBloc()),
+        BlocProvider(create: (context) => CounterCubit()),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
